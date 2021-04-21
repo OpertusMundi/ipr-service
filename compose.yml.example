@@ -1,0 +1,56 @@
+# vim: set syntax=yaml:
+
+version: '3.6'
+
+services:
+
+  ipr:
+    image: "opertusmundi/ipr-service:${VERSION}"
+    build:
+      context: .
+      args:
+        VERSION: "${VERSION}"
+
+    volumes:
+    - type: 'bind'
+      source: './logs'
+      target: '/var/local/ipr_service/logs'
+    - type: 'bind'
+      source: './secrets'
+      target: '/secrets'
+      read_only: true
+    - type: 'bind'
+      source: './output'
+      target: '/var/local/ipr_service/output'
+    - type: 'bind'
+      source: './input'
+      target: '/var/local/ipr_service/input'
+    - type: 'bind'
+      source: './temp'
+      target: '/tmp'
+
+    networks:
+    - 'opertusmundi_network'
+
+    ports:
+    - '5000:5000'
+
+    environment:
+      FLASK_ENV: "${FLASK_ENV}"
+      FLASK_DEBUG: "${FLASK_DEBUG}"
+      OUTPUT_DIR: '/var/local/ipr_service/output'
+      INPUT_DIR: '/var/local/ipr_service/input'
+      WORKING_DIR: '/tmp/ipr_service'
+      LOGGING_ROOT_LEVEL: 'INFO'
+      CORS: '*'
+      SECRET_KEY_FILE: '/secrets/secret_key'
+      DB_ENGINE: 'postgresql'
+      DB_HOST: 'postgres-1-opertusmundi'
+      DB_PORT: '5432'
+      DB_USER: 'ipr_service'
+      DB_NAME: 'opertusmundi_ipr'
+      DB_PASS_FILE: '/secrets/db_pass'
+
+networks:
+  opertusmundi_network:
+    external: true

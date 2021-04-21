@@ -1,0 +1,43 @@
+# vim: set syntax=yaml:
+
+version: '3.6'
+
+services:
+
+  # note: this is not actually a service, we intend to run it only `docker-compose run`
+  nosetests:
+
+    image: "opertusmundi/ipr-service:${VERSION}-testing"
+    build:
+      context: .
+      dockerfile: testing.dockerfile
+      args:
+        VERSION: "${VERSION}"
+
+    command: ['-v']
+
+    volumes:
+    - type: 'bind'
+      source: .
+      target: '/work'
+
+    working_dir: /work
+    user: "1000:1000"
+
+    networks:
+    - 'opertusmundi_network'
+
+    environment:
+      OUTPUT_DIR: '/work/output'
+      INPUT_DIR: '/work/tests' # Used for tests
+      DB_ENGINE: 'postgresql'
+      DB_HOST: 'localhost'
+      DB_PORT: '5432'
+      DB_USER: 'opertus'
+      DB_NAME: 'opertusmundi_ipr_tests'
+      DB_PASS: 'opertus'
+      HOME: '/work' # Vaex needs home directory to store config files
+
+networks:
+  opertusmundi_network:
+    external: true
