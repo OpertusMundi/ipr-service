@@ -2,14 +2,16 @@
 
 FROM debian:stable-20230109-slim 
 
-RUN apt-get update && \
-  apt-get install -y \
-    git \
-    python3 python3-pip python3-numpy python3-pyproj python3-gdal python3-psycopg2 python3-pillow python3-pywt \
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+    git build-essential \
+    python3 python3-dev python3-pip python3-numpy python3-pyproj python3-gdal python3-psycopg2 python3-pillow python3-pywt \
     python3-qrcode python3-requests python3-pandas python3-psutil \
     python3-flask python3-flask-cors python3-flask-sqlalchemy python3-flaskext.wtf \
     python3-astropy python3-tabulate python3-future python3-toolz python3-nest-asyncio python3-partd python3-dask \
-    libpcre3 libpcre3-dev libzbar0
+    libpcre3 libpcre3-dev libzbar0 \
+  && rm -rf /var/lib/apt/lists/*
+
 
 RUN pip3 install --system --no-cache-dir \
   apispec==4.0.0 apispec-webframeworks==0.5.2 \
@@ -44,7 +46,7 @@ ENV VERSION="${VERSION}" \
     OUTPUT_DIR="/var/local/ipr_service/output" \
     INPUT_DIR="/var/local/ipr_service/input" \
     WORKING_DIR="/var/local/ipr_service/temp" \
-    SECRET_KEY_FILE="/secrets/secret_key" \
+    SECRET_KEY_FILE="/secrets/secret-key" \
     DB_PASS_FILE="/secrets/database-password" \
     TLS_CERTIFICATE="" \
     TLS_KEY=""

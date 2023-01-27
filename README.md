@@ -34,7 +34,7 @@ pip install git+https://github.com/OpertusMundi/geovaex
 ```
 Install service with pip:
 ```
-pip install git+https://github.com/OpertusMundi/geometry-service.git
+pip install git+https://github.com/OpertusMundi/ipr-service.git
 ```
 Install separately the Python required packages:
 ```
@@ -43,17 +43,16 @@ pip install -r requirements.txt -r requirements-production.txt
 ### Set environment
 
 The following environment variables should be set:
-* `FLASK_ENV`<sup>*</sup>: `development` or `production`.
-* `FLASK_APP`<sup>*</sup>: `geometry_service` (if running as a container, this will be always set).
-* `SECRET_KEY`<sup>*</sup>: The application secret key. **The value of this key should remain the same, in order that detection does not break.**
-* `DATABASE_URI`<sup>*</sup>: `engine://user:pass@host:port/database`
+* `FLASK_ENV` `*`: `development` or `production`.
+* `FLASK_APP` `*`: `geometry_service` (if running as a container, this will be always set).
+* `SECRET_KEY` `*`: The application secret key. **The value of this key should remain the same, in order that detection does not break.**
+* `DATABASE_URI` `*`: `engine://user:pass@host:port/database`
 * `WORKING_DIR` : The location for storing the session files (*default*: the system temporary path).
-* `OUTPUT_DIR`<sup>*</sup>: The location used to store exported files.
-* `INPUT_DIR`<sup>*</sup>: The location of the input files.
-* `CORS`: List or string of allowed origins (*default*: '*').
-* `LOGGING_CONFIG_FILE`<sup>*</sup>: The logging configuration file.
+* `OUTPUT_DIR` `*`: The location used to store exported files.
+* `INPUT_DIR` `*`: The location of the input files.
+* `CORS`: List or string of allowed origins (*default*: `*`).
+* `LOGGING_CONFIG_FILE` `*`: The logging configuration file.
 
-<sup>*</sup> Required.
 
 ### Database
 
@@ -80,8 +79,8 @@ Build:
 
 Prepare the following files/directories:
 
-   * `./secrets/secret_key`: file needed (by Flask) for signing/encrypting session data.
-   * `./secrets/postgres/password`: file containing the password for the PostGIS database user.
+   * `./secrets/secret-key`: file needed (by Flask) for signing/encrypting session data.
+   * `./secrets/database-password`: file containing the password for the PostGIS database user.
    * `./logs`: a directory to keep logs.
    * `./temp`: a directory to be used as temporary storage.
    * `./output`: a directory to be used to store exported files.
