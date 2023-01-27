@@ -1,27 +1,20 @@
 #!/bin/sh
 #set -x
-set -e
+set -e -u
+
 
 # Check environment
 
-python_version="$(python3 -c 'import platform; print(platform.python_version())' | cut -d '.' -f 1,2)"
-if [ "${python_version}" != "${PYTHON_VERSION}" ]; then
-    echo "PYTHON_VERSION (${PYTHON_VERSION}) different with version reported from python3 executable (${python_version})" 1>&2 && exit 1
-fi
-
 if [ ! -f "${SECRET_KEY_FILE}" ]; then
-    echo "SECRET_KEY_FILE does not exist!" 1>&2 && exit 1
+    echo "SECRET_KEY_FILE=${SECRET_KEY_FILE}: file does not exist!" 1>&2 && exit 1
 fi
 
-for var in 'OUTPUT_DIR' 'DB_ENGINE' 'DB_HOST' 'DB_PORT' 'DB_USER' 'DB_NAME'; do
-  eval value='$'${var}
-  if [ -z ${value} ]; then
-    echo "${var} is not set!" 1>&2 && exit 1
-  fi
-done
+if [ ! -d "${OUTPUT_DIR}" ]; then
+    echo "OUTPUT_DIR=${OUTPUT_DIR}: directory does not exist!" 1>&2 && exit 1
+fi
 
 if [ ! -f "${DB_PASS_FILE}" ]; then
-    echo "DB_PASS_FILE does not exist!" 1>&2 && exit 1
+    echo "DB_PASS_FILE=${DB_PASS_FILE}: file does not exist!" 1>&2 && exit 1
 fi
 DB_PASS="$(cat ${DB_PASS_FILE})"
 
