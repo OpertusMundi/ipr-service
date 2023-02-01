@@ -74,6 +74,7 @@ def create_app():
         SECRET_KEY=os.environ['SECRET_KEY'],
         SQLALCHEMY_DATABASE_URI=os.environ['DATABASE_URI'],
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
+        SQLALCHEMY_ENGINE_OPTIONS={'pool_size': 4, 'pool_pre_ping': True},
         JSON_SORT_KEYS=False,
         EXECUTOR_TYPE="thread",
         EXECUTOR_MAX_WORKERS="1"

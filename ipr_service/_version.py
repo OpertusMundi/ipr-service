@@ -4,4 +4,4 @@ Variables:
 	__version__ {str} -- The version string.
 """
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'
